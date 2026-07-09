@@ -1,0 +1,80 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage[dvips]{graphicx,epsfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[british]{babel}
+\usepackage[mmddyyyy]{datetime}
+\renewcommand{\baselinestretch}{1.2}
+
+\marginparwidth=0in \marginparsep=0in \oddsidemargin=0in \evensidemargin=0in \headheight=0in \headsep=0in \topmargin=0.5in \textheight=9in
+\textwidth=6in
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\begin{tabular}{l r}
+University of Essex  \hspace{35ex}& Session 2025-2026 \\
+Department of Economics \hspace{35ex} & Autumn Term\\
+Dr Ben Etheridge \hspace{35ex} &
+\end{tabular}
+\\
+\begin{center}
+\large{\textbf{EC466: Econometrics }\\
+Problem Set \# 7: Staggered Difference-in-Differences}
+\end{center}
+\vspace*{0.5cm}
+
+\textbf{Background:} Consider a policy intervention that was rolled out across different regions at different times. You have panel data from four regions (A, B, C, D) over six time periods (2018-2023), with the following average outcomes:
+
+\vspace{1em}
+\begin{center}
+\begin{tabular}{lcccccc|c}
+\hline
+Region & 2018 & 2019 & 2020 & 2021 & 2022 & 2023 & Treatment Start \\
+\hline
+A & 45.2 & 46.1 & 52.8 & 55.3 & 57.9 & 60.2 & 2020 \\
+B & 43.8 & 44.5 & 45.2 & 51.7 & 54.1 & 56.8 & 2021 \\
+C & 44.6 & 45.3 & 46.1 & 46.8 & 53.4 & 55.9 & 2022 \\
+D & 42.9 & 43.6 & 44.2 & 44.9 & 45.5 & 46.1 & Never \\
+\hline
+\end{tabular}
+\end{center}
+Each region has 100 observations per period, and treatment is irreversible once adopted.
+\vspace{1em}
+
+\begin{enumerate}
+\item \textbf{Two-Way Fixed Effects Estimation}
+\begin{enumerate}[(a)]
+\item Write down the standard TWFE regression specification for this staggered adoption design. Define all variables clearly, including the treatment indicator $\mathcal{D}_{i,t}$.
+\item Explain intuitively why a researcher might be tempted to use this TWFE specification. What causal parameter might they hope to estimate?
+\item Calculate three $2\times2$ DiD estimates ``by hand'': (i) Region A vs.\ Region D comparing 2019 to 2020; (ii) Region B vs.\ Region D comparing 2020 to 2021; (iii) Region B vs.\ Region A comparing 2020 to 2021. Interpret each estimate.
+\end{enumerate}
+
+\item \textbf{The Goodman-Bacon Decomposition}
+\begin{enumerate}[(a)]
+\item According to the Goodman-Bacon (2021) decomposition, the TWFE estimator can be written as:
+\begin{equation*}
+\hat{\beta}^{DD} = \sum_{k \neq U} s_{k,U}\,\hat{\beta}^{DD}_{k,U} + \sum_{k \neq U}\sum_{\ell > k}\left[ s^{k}_{k\ell}\,\hat{\beta}^{DD,k}_{k\ell} + s^{\ell}_{k\ell}\,\hat{\beta}^{DD,\ell}_{k\ell} \right]
+\end{equation*}
+Explain what each component of this decomposition represents. What do the subscripts $k$, $U$, and $\ell$ denote?
+\item Describe the three types of $2\times2$ comparisons that contribute to the TWFE estimator in a staggered design. Which of these comparisons is most likely to be problematic, and why?
+\item The weights in the Goodman-Bacon decomposition depend on sample size and variance in the treatment variable. Explain why the weight $s_{k,U}$ for comparing early-treated group $k$ to the never-treated group $U$ includes the term $(n_k + n_U)^{2}$. Is this weighting scheme necessarily aligned with policy relevance?
+\end{enumerate}
+
+\item \textbf{Event Study Specifications}
+\begin{enumerate}[(a)]
+\item Write down a TWFE event study regression specification that includes relative time indicators (leads and lags). Explain why a researcher would use this specification instead of a simple TWFE model with a single treatment indicator.
+\item Suppose you estimate a TWFE event study and find that the coefficients on the lead terms (pre-treatment periods) are statistically significant and economically large. Provide two distinct explanations for this finding: one that suggests a violation of identifying assumptions, and one that arises even when all assumptions hold.
+\item Explain why ``binning'' of endpoints (e.g., using $\mathcal{D}^{<-K}_{i,t}$ for all periods more than $K$ periods before treatment) can contaminate the coefficients on other event-time indicators. What role does treatment effect heterogeneity play in this contamination?
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,116 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage[dvips]{graphicx,epsfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[british]{babel}
+\usepackage[mmddyyyy]{datetime}
+\renewcommand{\baselinestretch}{1.2}
+
+\marginparwidth=0in \marginparsep=0in \oddsidemargin=0in \evensidemargin=0in \headheight=0in \headsep=0in \topmargin=0.5in \textheight=9in
+\textwidth=6in
+\setlength{\parindent}{0pt}
+
+% Command for answers, rendered in italics to match the PDF style
+\newcommand{\ans}[1]{\begin{itemize}\item[$\bullet$] \textit{ANS: #1}\end{itemize}}
+
+\begin{document}
+\begin{tabular}{l r}
+University of Essex  \hspace{35ex}& Session 2025-2026 \\
+Department of Economics \hspace{35ex} & Autumn Term\\
+Dr Ben Etheridge \hspace{35ex} &
+\end{tabular}
+\\
+\begin{center}
+\large{\textbf{EC466: Econometrics }\\
+Problem Set \# 8: Callaway-Sant'Anna Estimator and Modern DiD Methods}
+\end{center}
+\vspace*{0.5cm}
+
+\textbf{Background:} Consider a training program that was implemented across different cities at different times. You have panel data from five cities (E, F, G, H, I) over seven time periods (2017-2023), with the following average employment rates (in percentage points):
+
+\vspace{1em}
+\begin{center}
+\begin{tabular}{lccccccc|c}
+\hline
+City & 2017 & 2018 & 2019 & 2020 & 2021 & 2022 & 2023 & Treatment Start \\
+\hline
+E & 62.5 & 63.2 & 70.8 & 74.1 & 77.5 & 80.2 & 82.8 & 2019 \\
+F & 61.8 & 62.4 & 63.1 & 71.2 & 74.9 & 78.3 & 81.5 & 2020 \\
+G & 62.1 & 62.9 & 63.6 & 64.3 & 72.8 & 76.5 & 79.9 & 2021 \\
+H & 63.3 & 64.0 & 64.7 & 65.4 & 66.1 & 74.2 & 77.8 & 2022 \\
+I & 61.2 & 61.8 & 62.4 & 63.0 & 63.6 & 64.2 & 64.8 & Never \\
+\hline
+\end{tabular}
+\end{center}
+Each city has 150 observations per period, and treatment is irreversible once adopted.
+\vspace{1em}
+
+\begin{enumerate}
+\item \textbf{Group-Time Average Treatment Effects}
+\begin{enumerate}[(a)]
+\item Define $ATT(g, t)$ precisely in the context of this staggered adoption design. What does $g$ represent? What does $t$ represent? What is the interpretation of $ATT(2020, 2022)$ in this application?
+\ans{$ATT(g, t)$ is the average treatment effect on the treated at time $t$ for the cohort first treated at time $g$. Here, $g$ represents the treatment adoption year (cohort identifier), and $t$ represents the calendar time period. $ATT(2020, 2022)$ measures the causal effect of the training program in 2022 for City F, which was first treated in 2020---this captures the treatment effect two years post-adoption for this cohort.}
+
+\item Using City I (never treated) as the comparison group, calculate $ATT(2019, 2021)$ for City E ``by hand'' using the unconditional estimand:
+\begin{equation*}
+ATT^{nev}_{unc}(g, t) = E[Y_t - Y_{g-1}|G_g = 1] - E[Y_t - Y_{g-1}|G_g = \infty]
+\end{equation*}
+Show all your work and interpret the result.
+\ans{For City E with $g = 2019$, $t = 2021$, $g - 1 = 2018$:\\
+Treated group (City E): $Y_{2021} - Y_{2018} = 77.5 - 63.2 = 14.3$\\
+Never-treated (City I): $Y_{2021} - Y_{2018} = 63.6 - 61.8 = 1.8$\\
+Therefore: $ATT(2019, 2021) = 14.3 - 1.8 = 12.5$\\
+Interpretation: The training program increased employment rates by 12.5 percentage points in 2021 for City E, two years after treatment adoption, relative to the counterfactual trend.}
+
+\item Now calculate $ATT(2020, 2022)$ for City F using the same approach. How does this estimate compare to the one you calculated in part (b)? What might explain the difference?
+\ans{For City F with $g = 2020$, $t = 2022$, $g - 1 = 2019$:\\
+Treated group (City F): $Y_{2022} - Y_{2019} = 78.3 - 63.1 = 15.2$\\
+Never-treated (City I): $Y_{2022} - Y_{2019} = 64.2 - 62.4 = 1.8$\\
+Therefore: $ATT(2020, 2022) = 15.2 - 1.8 = 13.4$\\
+This estimate (13.4) is larger than part (b)'s estimate (12.5). Possible explanations include: treatment effect heterogeneity across cohorts, with City F experiencing stronger effects; cumulative or growing treatment impacts over time; or differential baseline characteristics between cohorts affecting treatment response.}
+\end{enumerate}
+
+\item \textbf{Alternative Comparison Groups}
+\begin{enumerate}[(a)]
+\item Explain the difference between using ``never-treated'' units versus ``not-yet-treated'' units as a comparison group. Write down the parallel trends assumption for each case.
+\ans{Never-treated units are those that never receive treatment during the observed period (City I), while not-yet-treated units are those that will eventually receive treatment but have not been treated by time $t$. The parallel trends assumption for never-treated: $E[Y_t(0) - Y_{g-1}(0)|G_g = g] = E[Y_t(0)-Y_{g-1}(0)|G_g = \infty]$, meaning the treated cohort would have followed the same trend as never-treated units absent treatment. For not-yet-treated: $E[Y_t(0) - Y_{g-1}(0)|G_g = g] = E[Y_t(0) - Y_{g-1}(0)|G_g = g']$ where $g' > t$, meaning the treated cohort would have followed the same trend as cohorts not yet treated by time $t$. Not-yet-treated units may be more comparable if treatment timing reflects similar underlying characteristics, but may exhibit anticipation effects.}
+
+\item Using City H as a ``not-yet-treated'' comparison group, calculate $ATT(2020, 2021)$ for City F. How does this estimate differ from using City I (never-treated) as the comparison? Which comparison do you find more credible and why?
+\ans{For City F with $g = 2020$, $t = 2021$, using City H (treated in 2022, so not-yet-treated in 2021):\\
+Treated (City F): $Y_{2021} - Y_{2019} = 74.9 - 63.1 = 11.8$\\
+Not-yet-treated (City H): $Y_{2021} - Y_{2019} = 66.1 - 64.7 = 1.4$\\
+$ATT(2020, 2021) = 11.8 - 1.4 = 10.4$\\
+Using City I: $Y_{2021}-Y_{2019} = 63.6-62.4 = 1.2$, giving $ATT(2020, 2021) = 11.8 - 1.2 = 10.6$.\\
+The estimates are similar (10.4 vs 10.6). City H may be more credible if cities that adopt treatment share common pre-treatment trends, making not-yet-treated units better counterfactuals. However, City H could exhibit anticipation effects. City I is credible if it represents a stable counterfactual, but may differ systematically if non-adoption reflects structural differences.}
+
+\item Suppose you wanted to estimate $ATT(2019, 2023)$ for City E. Which cities could serve as valid ``not-yet-treated'' comparison groups in 2023? Explain your reasoning. What does this imply about the availability of comparison groups over time?
+\ans{No cities can serve as not-yet-treated comparison groups in 2023. By 2023, all cities except I have been treated: F (2020), G (2021), and H (2022) are all already treated. Only City I remains, but it is never-treated, not not-yet-treated. This illustrates a fundamental challenge in staggered adoption designs: the pool of not-yet-treated comparison units shrinks over time as more cohorts adopt treatment. Later time periods have fewer valid comparison units, potentially reducing precision and making parallel trends less credible for long-run effects.}
+\end{enumerate}
+
+\item \textbf{Aggregation and Summary Measures}
+\begin{enumerate}[(a)]
+\item Consider the simple average aggregation:
+\begin{equation*}
+\theta_M := \frac{2}{T(T-1)}\sum_{g=2}^{T}\sum_{t=2}^{T}\mathbf{1}\{g \leq t\}\,ATT(g, t)
+\end{equation*}
+Calculate the number of group-time ATTs that would be averaged in $\theta_M$ for the data above (i.e., how many $(g, t)$ pairs satisfy $g \leq t$?). Explain why this aggregation might ``overweight'' earlier-treated cities.
+\ans{There are 14 $(g, t)$ pairs satisfying $g \leq t$: City E (2019) contributes 5 pairs for $t \in \{2019, 2020, 2021, 2022, 2023\}$; City F (2020) contributes 4 pairs; City G (2021) contributes 3 pairs; City H (2022) contributes 2 pairs. Total: $5 + 4 + 3 + 2 = 14$. This aggregation overweights earlier-treated cities because they appear in more $(g, t)$ pairs---City E appears 5 times while City H appears only 2 times. Each city receives equal weight per pair, so earlier adopters disproportionately influence $\theta_M$, potentially biasing the overall average if treatment effects vary across cohorts or event times.}
+
+\item Write down the formula for the event-study aggregation $\theta_D(e)$, where $e$ represents periods of exposure to treatment. What is the interpretation of $\theta_D(2)$ in this application?
+\ans{The event-study aggregation is $\theta_D(e) = \sum_{g} w_g(e) \cdot ATT(g, g+e)$, where $e$ is event time (periods since treatment), $w_g(e)$ are weights satisfying $\sum_{g} w_g(e) = 1$, and the sum is over all cohorts $g$ for which $ATT(g, g+e)$ is defined. $\theta_D(2)$ represents the average treatment effect two periods after adoption, averaged across all treatment cohorts. In this application, $\theta_D(2)$ aggregates the effect of the training program two years post-implementation across Cities E, F, G, and H (where applicable), providing a summary measure of the medium-run program impact.}
+
+\item Compare $\theta_D(2)-\theta_D(1)$ to the difference in individual group effects $ATT(g, g+2) - ATT(g, g+1)$ for a specific group $g$. Under what conditions would these two measures of dynamic treatment effects be identical? When might they differ?
+\ans{$\theta_D(2) - \theta_D(1)$ measures the change in average treatment effects from event time 1 to event time 2 across all cohorts, while $ATT(g, g+2) - ATT(g, g+1)$ measures this change for a specific cohort $g$. These would be identical if: (1) treatment effects are homogeneous across cohorts (i.e., all groups have the same dynamic treatment trajectory), or (2) only one cohort contributes to both $\theta_D(1)$ and $\theta_D(2)$. They differ when there is treatment effect heterogeneity across cohorts---different cities may experience different growth rates in treatment effects over time---or when the weighting differs across event times due to varying cohort composition or sample sizes at different exposure lengths.}
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}

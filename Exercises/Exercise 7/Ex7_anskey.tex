@@ -1,0 +1,98 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage[dvips]{graphicx,epsfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[british]{babel}
+\usepackage[mmddyyyy]{datetime}
+\renewcommand{\baselinestretch}{1.2}
+
+\marginparwidth=0in \marginparsep=0in \oddsidemargin=0in \evensidemargin=0in \headheight=0in \headsep=0in \topmargin=0.5in \textheight=9in
+\textwidth=6in
+\setlength{\parindent}{0pt}
+
+% Command for answers, rendered in italics to match the PDF style
+\newcommand{\ans}[1]{\begin{itemize}\item[$\bullet$] \textit{ANS: #1}\end{itemize}}
+
+\begin{document}
+\begin{tabular}{l r}
+University of Essex  \hspace{35ex}& Session 2025-2026 \\
+Department of Economics \hspace{35ex} & Autumn Term\\
+Dr Ben Etheridge \hspace{35ex} &
+\end{tabular}
+\\
+\begin{center}
+\large{\textbf{EC466: Econometrics }\\
+Problem Set \# 7: Staggered Difference-in-Differences}
+\end{center}
+\vspace*{0.5cm}
+
+\textbf{Background:} Consider a policy intervention that was rolled out across different regions at different times. You have panel data from four regions (A, B, C, D) over six time periods (2018-2023), with the following average outcomes:
+
+\vspace{1em}
+\begin{center}
+\begin{tabular}{lcccccc|c}
+\hline
+Region & 2018 & 2019 & 2020 & 2021 & 2022 & 2023 & Treatment Start \\
+\hline
+A & 45.2 & 46.1 & 52.8 & 55.3 & 57.9 & 60.2 & 2020 \\
+B & 43.8 & 44.5 & 45.2 & 51.7 & 54.1 & 56.8 & 2021 \\
+C & 44.6 & 45.3 & 46.1 & 46.8 & 53.4 & 55.9 & 2022 \\
+D & 42.9 & 43.6 & 44.2 & 44.9 & 45.5 & 46.1 & Never \\
+\hline
+\end{tabular}
+\end{center}
+Each region has 100 observations per period, and treatment is irreversible once adopted.
+\vspace{1em}
+
+\begin{enumerate}
+\item \textbf{Two-Way Fixed Effects Estimation}
+\begin{enumerate}[(a)]
+\item Write down the standard TWFE regression specification for this staggered adoption design. Define all variables clearly, including the treatment indicator $\mathcal{D}_{i,t}$.
+\ans{The standard TWFE specification is: $Y_{i,t} = \alpha_i + \lambda_t + \beta\mathcal{D}_{i,t} + \varepsilon_{i,t}$, where $Y_{i,t}$ is the outcome for region $i$ in period $t$, $\alpha_i$ are region fixed effects, $\lambda_t$ are time fixed effects, $\mathcal{D}_{i,t} = 1$ if region $i$ is treated in period $t$ (i.e., $t \geq$ treatment start year) and 0 otherwise, $\beta$ is the average treatment effect parameter, and $\varepsilon_{i,t}$ is the error term.}
+
+\item Explain intuitively why a researcher might be tempted to use this TWFE specification. What causal parameter might they hope to estimate?
+\ans{TWFE extends the simple $2\times2$ difference-in-differences to multiple periods and units with staggered treatment timing. It controls for time-invariant region characteristics and common time trends, making it attractive for panel data. Researchers hope to estimate the average treatment effect on the treated (ATT), assuming parallel trends would have held absent treatment. The single $\beta$ coefficient appears to summarize the overall treatment effect across all treated units and periods.}
+
+\item Calculate three $2\times2$ DiD estimates ``by hand'': (i) Region A vs.\ Region D comparing 2019 to 2020; (ii) Region B vs.\ Region D comparing 2020 to 2021; (iii) Region B vs.\ Region A comparing 2020 to 2021. Interpret each estimate.
+\ans{(i) A vs.\ D (2019$\to$2020): $(52.8 - 46.1) - (44.2 - 43.6) = 6.7-0.6 = 6.1$. This estimates A's treatment effect using never-treated D as control. (ii) B vs.\ D (2020$\to$2021): $(51.7-45.2)-(44.9-44.2) = 6.5 - 0.7 = 5.8$. This estimates B's treatment effect using never-treated D as control. (iii) B vs.\ A (2020$\to$2021): $(51.7 - 45.2) - (55.3 - 52.8) = 6.5 - 2.5 = 4.0$. This problematically uses already-treated A as a ``control'' for newly-treated B, potentially biasing the estimate if treatment effects change over time.}
+\end{enumerate}
+
+\item \textbf{The Goodman-Bacon Decomposition}
+\begin{enumerate}[(a)]
+\item According to the Goodman-Bacon (2021) decomposition, the TWFE estimator can be written as:
+\begin{equation*}
+\hat{\beta}^{DD} = \sum_{k \neq U} s_{k,U}\,\hat{\beta}^{DD}_{k,U} + \sum_{k \neq U}\sum_{\ell > k}\left[ s^{k}_{k\ell}\,\hat{\beta}^{DD,k}_{k\ell} + s^{\ell}_{k\ell}\,\hat{\beta}^{DD,\ell}_{k\ell} \right]
+\end{equation*}
+Explain what each component of this decomposition represents. What do the subscripts $k$, $U$, and $\ell$ denote?
+\ans{The subscript $k$ denotes an earlier-treated cohort, $U$ denotes the never-treated group, and $\ell$ denotes a later-treated cohort (where $\ell > k$). The first term represents weighted $2\times2$ DiD comparisons between each treated cohort $k$ and the never-treated group $U$. The second term captures comparisons between different treatment timing groups: $\hat{\beta}^{DD,k}_{k\ell}$ compares early-treated group $k$ to late-treated group $\ell$ using $k$'s treatment timing, while $\hat{\beta}^{DD,\ell}_{k\ell}$ uses $\ell$'s treatment timing. The $s$ terms are weights that sum to one.}
+
+\item Describe the three types of $2\times2$ comparisons that contribute to the TWFE estimator in a staggered design. Which of these comparisons is most likely to be problematic, and why?
+\ans{The three types are: (1) early-treated vs.\ never-treated, (2) late-treated vs.\ never-treated, and (3) early-treated vs.\ late-treated (or already-treated vs.\ not-yet-treated). The third type is most problematic because it uses already-treated units as controls for newly-treated units. If treatment effects evolve over time, the already-treated group provides a contaminated counterfactual, potentially generating negative weights and biasing the TWFE estimator away from a convex average of treatment effects.}
+
+\item The weights in the Goodman-Bacon decomposition depend on sample size and variance in the treatment variable. Explain why the weight $s_{k,U}$ for comparing early-treated group $k$ to the never-treated group $U$ includes the term $(n_k + n_U)^{2}$. Is this weighting scheme necessarily aligned with policy relevance?
+\ans{The $(n_k + n_U)^{2}$ term arises because the weight is proportional to $\mathrm{Var}(D_{kt})$ for the $k$ vs.\ $U$ comparison, which equals $\frac{n_k n_U}{(n_k+n_U)^{2}}$ times a function of treatment timing. This means comparisons with larger groups and more variation in treatment status receive higher weight in the TWFE estimator. This weighting is not necessarily policy-relevant: the most important treatment effects may occur in smaller subgroups, but TWFE mechanically downweights these comparisons regardless of their substantive importance.}
+\end{enumerate}
+
+\item \textbf{Event Study Specifications}
+\begin{enumerate}[(a)]
+\item Write down a TWFE event study regression specification that includes relative time indicators (leads and lags). Explain why a researcher would use this specification instead of a simple TWFE model with a single treatment indicator.
+\ans{The specification is $Y_{it} = \alpha_i + \lambda_t + \sum_{k \neq -1}\beta_k D^{k}_{it} + \epsilon_{it}$, where $D^{k}_{it} = \mathbf{1}(\text{periods since treatment} = k)$ for unit $i$ at time $t$, with $k < 0$ for leads (pre-treatment) and $k > 0$ for lags (post-treatment). The reference period $k = -1$ is omitted for identification. Researchers use this specification to: (1) test parallel trends by examining whether pre-treatment coefficients ($\beta_k$ for $k < -1$) are statistically zero, (2) estimate dynamic treatment effects and assess whether effects grow, fade, or remain constant over time, and (3) identify the timing of treatment impact rather than assuming a single constant effect.}
+
+\item Suppose you estimate a TWFE event study and find that the coefficients on the lead terms (pre-treatment periods) are statistically significant and economically large. Provide two distinct explanations for this finding: one that suggests a violation of identifying assumptions, and one that arises even when all assumptions hold.
+\ans{(1) Violation: Pre-existing differential trends between treated and control units violate the parallel trends assumption, indicating the control group does not provide a valid counterfactual for the treated group's trajectory. (2) Valid assumptions: With treatment effect heterogeneity and staggered adoption, TWFE event studies suffer from contamination bias where already-treated units serve as implicit controls for not-yet-treated units. This creates spurious pre-trends even when parallel trends hold, as lead coefficients incorporate post-treatment effects from earlier-treated cohorts (Sun and Abraham 2021), yielding negative weights on some treatment effects.}
+
+\item Explain why ``binning'' of endpoints (e.g., using $\mathcal{D}^{<-K}_{i,t}$ for all periods more than $K$ periods before treatment) can contaminate the coefficients on other event-time indicators. What role does treatment effect heterogeneity play in this contamination?
+\ans{Binning imposes the constraint that $\beta_{<-K} = \beta_{-K-1} = \beta_{-K-2} = \cdots$, forcing a single coefficient across multiple distinct periods. With heterogeneous treatment effects across cohorts and time, this constraint is misspecified and creates omitted variable bias that propagates through the TWFE estimation to other event-time coefficients. The binned term inappropriately pools variation from different relative-time positions, and since all coefficients are estimated jointly conditional on unit and time fixed effects, this misspecification contaminates the entire event study path. Greater treatment effect heterogeneity worsens contamination because the binned coefficient becomes an increasingly poor summary of the underlying heterogeneous effects.}
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
