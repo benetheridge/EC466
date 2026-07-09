@@ -1,0 +1,85 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage[dvips]{graphicx,epsfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[british]{babel}
+\usepackage[mmddyyyy]{datetime}
+\renewcommand{\baselinestretch}{1.2}
+
+\marginparwidth=0in \marginparsep=0in \oddsidemargin=0in \evensidemargin=0in \headheight=0in \headsep=0in \topmargin=0.5in \textheight=9in
+\textwidth=6in
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\begin{tabular}{l r}
+University of Essex  \hspace{35ex}& Session 2025-2026 \\
+Department of Economics \hspace{35ex} & Autumn Term\\
+Dr Ben Etheridge \hspace{35ex} &
+\end{tabular}
+\\
+\begin{center}
+\large{\textbf{EC466: Econometrics }\\
+Problem Set \# 8: Callaway-Sant'Anna Estimator and Modern DiD Methods}
+\end{center}
+\vspace*{0.5cm}
+
+\textbf{Background:} Consider a training program that was implemented across different cities at different times. You have panel data from five cities (E, F, G, H, I) over seven time periods (2017-2023), with the following average employment rates (in percentage points):
+
+\vspace{1em}
+\begin{center}
+\begin{tabular}{lccccccc|c}
+\hline
+City & 2017 & 2018 & 2019 & 2020 & 2021 & 2022 & 2023 & Treatment Start \\
+\hline
+E & 62.5 & 63.2 & 70.8 & 74.1 & 77.5 & 80.2 & 82.8 & 2019 \\
+F & 61.8 & 62.4 & 63.1 & 71.2 & 74.9 & 78.3 & 81.5 & 2020 \\
+G & 62.1 & 62.9 & 63.6 & 64.3 & 72.8 & 76.5 & 79.9 & 2021 \\
+H & 63.3 & 64.0 & 64.7 & 65.4 & 66.1 & 74.2 & 77.8 & 2022 \\
+I & 61.2 & 61.8 & 62.4 & 63.0 & 63.6 & 64.2 & 64.8 & Never \\
+\hline
+\end{tabular}
+\end{center}
+Each city has 150 observations per period, and treatment is irreversible once adopted.
+\vspace{1em}
+
+\begin{enumerate}
+\item \textbf{Group-Time Average Treatment Effects}
+\begin{enumerate}[(a)]
+\item Define $ATT(g, t)$ precisely in the context of this staggered adoption design. What does $g$ represent? What does $t$ represent? What is the interpretation of $ATT(2020, 2022)$ in this application?
+\item Using City I (never treated) as the comparison group, calculate $ATT(2019, 2021)$ for City E ``by hand'' using the unconditional estimand:
+\begin{equation*}
+ATT^{nev}_{unc}(g, t) = E[Y_t - Y_{g-1}|G_g = 1] - E[Y_t - Y_{g-1}|G_g = \infty]
+\end{equation*}
+Show all your work and interpret the result.
+\item Now calculate $ATT(2020, 2022)$ for City F using the same approach. How does this estimate compare to the one you calculated in part (b)? What might explain the difference?
+\end{enumerate}
+
+\item \textbf{Alternative Comparison Groups}
+\begin{enumerate}[(a)]
+\item Explain the difference between using ``never-treated'' units versus ``not-yet-treated'' units as a comparison group. Write down the parallel trends assumption for each case.
+\item Using City H as a ``not-yet-treated'' comparison group, calculate $ATT(2020, 2021)$ for City F. How does this estimate differ from using City I (never-treated) as the comparison? Which comparison do you find more credible and why?
+\item Suppose you wanted to estimate $ATT(2019, 2023)$ for City E. Which cities could serve as valid ``not-yet-treated'' comparison groups in 2023? Explain your reasoning. What does this imply about the availability of comparison groups over time?
+\end{enumerate}
+
+\item \textbf{Aggregation and Summary Measures}
+\begin{enumerate}[(a)]
+\item Consider the simple average aggregation:
+\begin{equation*}
+\theta_M := \frac{2}{T(T-1)}\sum_{g=2}^{T}\sum_{t=2}^{T}\mathbf{1}\{g \leq t\}\,ATT(g, t)
+\end{equation*}
+Calculate the number of group-time ATTs that would be averaged in $\theta_M$ for the data above (i.e., how many $(g, t)$ pairs satisfy $g \leq t$?). Explain why this aggregation might ``overweight'' earlier-treated cities.
+\item Write down the formula for the event-study aggregation $\theta_D(e)$, where $e$ represents periods of exposure to treatment. What is the interpretation of $\theta_D(2)$ in this application?
+\item Compare $\theta_D(2)-\theta_D(1)$ to the difference in individual group effects $ATT(g, g+2) - ATT(g, g+1)$ for a specific group $g$. Under what conditions would these two measures of dynamic treatment effects be identical? When might they differ?
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}

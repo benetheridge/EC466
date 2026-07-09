@@ -1,0 +1,78 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage[dvips]{graphicx,epsfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[british]{babel}
+\usepackage[mmddyyyy]{datetime}
+\renewcommand{\baselinestretch}{1.2}
+
+\marginparwidth=0in \marginparsep=0in \oddsidemargin=0in \evensidemargin=0in \headheight=0in \headsep=0in \topmargin=0.5in \textheight=9in
+\textwidth=6in
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\begin{tabular}{l r}
+University of Essex  \hspace{35ex}& Session 2025-2026 \\
+Department of Economics \hspace{35ex} & Autumn Term\\
+Dr Ben Etheridge \hspace{35ex} &
+\end{tabular}
+\\
+\begin{center}
+\large{\textbf{EC466: Econometrics }\\
+Problem Set \# 6: Difference-in-Differences}
+\end{center}
+\vspace*{0.5cm}
+
+\textbf{Background:} A government training programme for unemployed workers was implemented in Region A starting in January 2023, while Region B did not implement the programme. You have panel data tracking the same individuals in both regions from 2022 and 2023, with the following average earnings (in \pounds1000s):
+
+\vspace{1em}
+\begin{center}
+\begin{tabular}{lccc}
+\hline
+Region & 2022 & 2023 & Sample Size ($n$) \\
+\hline
+A (Treated) & 18.5 & 24.2 & 250 \\
+B (Control) & 20.1 & 22.8 & 300 \\
+\hline
+\end{tabular}
+\end{center}
+\vspace{1em}
+
+\begin{enumerate}
+\item \textbf{DiD Estimation and Identification}
+\begin{enumerate}[(a)]
+\item Calculate the canonical $2\times2$ difference-in-differences estimate of the average treatment effect on the treated (ATT). Show your working and interpret the result in the context of the training programme.
+\item State the three key assumptions (SUTVA, No-Anticipation, and Parallel Trends) required for the DiD estimator to identify the ATT. Explain each assumption in the context of this application.
+\item Explain intuitively why the parallel trends assumption is necessary. What would happen to the DiD estimate if this assumption were violated?
+\end{enumerate}
+
+\item \textbf{Potential Outcomes and Missing Data}\\
+Consider the potential outcomes framework where $Y_{i,t}(g)$ denotes the earnings individual $i$ would have in period $t$ if they belonged to group $g \in \{A, B\}$.
+\begin{enumerate}[(a)]
+\item Under SUTVA and No-Anticipation, show which potential outcomes are observed for individuals in each region and time period. Present your answer in a table similar to the one on page 11 of the lecture notes.
+\item Write down the formal expression for the selection bias that would arise from a simple comparison of post-treatment outcomes: $E[Y_{i,t=2023}|G_i = A] - E[Y_{i,t=2023}|G_i = B]$. Explain why this does not generally equal the ATT.
+\item Using the Parallel Trends Assumption, show algebraically how the unobserved counterfactual $E[Y_{i,t=2023}(\infty)|G_i = A]$ can be imputed from observed data.
+\end{enumerate}
+
+\item \textbf{Regression Specification and Interpretation}\\
+Suppose you estimate the following two-way fixed effects (TWFE) regression:
+\begin{equation*}
+Y_{i,t} = \alpha_{0}+\gamma_{0}\mathbf{1}\{G_i = A\}+\lambda_{0}\mathbf{1}\{T_i = 2023\}+\beta_{0}^{TWFE}\big(\mathbf{1}\{G_i = A\}\cdot\mathbf{1}\{T_i = 2023\}\big)+\varepsilon_{i,t}
+\end{equation*}
+\begin{enumerate}[(a)]
+\item Interpret each parameter ($\alpha_{0}$, $\gamma_{0}$, $\lambda_{0}$, $\beta_{0}^{TWFE}$) in terms of conditional expectations of observed outcomes.
+\item Show that under SUTVA, No-Anticipation, and Parallel Trends, $\beta_{0}^{TWFE}$ equals the ATT.
+\item Explain why $\beta_{0}^{TWFE}$ equals the ``DiD by hand'' estimator you calculated in question 1(a).
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}

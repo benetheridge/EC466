@@ -1,0 +1,123 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage[dvips]{graphicx,epsfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[british]{babel}
+\usepackage[mmddyyyy]{datetime}
+\renewcommand{\baselinestretch}{1.2}
+
+\marginparwidth=0in \marginparsep=0in \oddsidemargin=0in \evensidemargin=0in \headheight=0in \headsep=0in \topmargin=0.5in \textheight=9in
+\textwidth=6in
+\setlength{\parindent}{0pt}
+
+% Command for answers, rendered in italics to match the PDF style
+\newcommand{\ans}[1]{\begin{itemize}\item[$\bullet$] \textit{ANS: #1}\end{itemize}}
+
+\begin{document}
+\begin{tabular}{l r}
+University of Essex  \hspace{35ex}& Session 2025-2026 \\
+Department of Economics \hspace{35ex} & Autumn Term\\
+Dr Ben Etheridge \hspace{35ex} &
+\end{tabular}
+\\
+\begin{center}
+\large{\textbf{EC466: Econometrics }\\
+Problem Set \# 6: Difference-in-Differences}
+\end{center}
+\vspace*{0.5cm}
+
+\textbf{Background:} A government training programme for unemployed workers was implemented in Region A starting in January 2023, while Region B did not implement the programme. You have panel data tracking the same individuals in both regions from 2022 and 2023, with the following average earnings (in \pounds1000s):
+
+\vspace{1em}
+\begin{center}
+\begin{tabular}{lccc}
+\hline
+Region & 2022 & 2023 & Sample Size ($n$) \\
+\hline
+A (Treated) & 18.5 & 24.2 & 250 \\
+B (Control) & 20.1 & 22.8 & 300 \\
+\hline
+\end{tabular}
+\end{center}
+\vspace{1em}
+
+\begin{enumerate}
+\item \textbf{DiD Estimation and Identification}
+\begin{enumerate}[(a)]
+\item Calculate the canonical $2\times2$ difference-in-differences estimate of the average treatment effect on the treated (ATT). Show your working and interpret the result in the context of the training programme.
+\ans{$\widehat{ATT}_{DiD} = (24.2-18.5)-(22.8-20.1) = 5.7-2.7 = 3.0$ thousand pounds. The training programme increased average earnings by \pounds3,000 for treated workers, after accounting for common time trends.}
+
+\item State the three key assumptions (SUTVA, No-Anticipation, and Parallel Trends) required for the DiD estimator to identify the ATT. Explain each assumption in the context of this application.
+\ans{(1) SUTVA: Each worker's outcome depends only on their own treatment status, with no spillovers between regions. (2) No-Anticipation: Workers did not alter behavior in 2022 anticipating the 2023 programme. (3) Parallel Trends: Absent treatment, Regions A and B would have experienced identical earnings changes from 2022 to 2023.}
+
+\item Explain intuitively why the parallel trends assumption is necessary. What would happen to the DiD estimate if this assumption were violated?
+\ans{Parallel trends is necessary because DiD uses the control group's change to infer the counterfactual for the treated group. If violated, the DiD estimate confounds treatment effects with pre-existing differential trends, yielding biased estimates: overestimating if the treated region would have grown faster anyway, underestimating if slower.}
+\end{enumerate}
+
+\item \textbf{Potential Outcomes and Missing Data}\\
+Consider the potential outcomes framework where $Y_{i,t}(g)$ denotes the earnings individual $i$ would have in period $t$ if they belonged to group $g \in \{A, B\}$.
+\begin{enumerate}[(a)]
+\item Under SUTVA and No-Anticipation, show which potential outcomes are observed for individuals in each region and time period. Present your answer in a table similar to the one on page 11 of the lecture notes.
+\ans{
+\begin{center}
+\begin{tabular}{ccc}
+\hline
+Region & $t = 2022$ & $t = 2023$ \\
+\hline
+A & $Y_{i,2022}(A)$ observed & $Y_{i,2023}(A)$ observed \\
+  & $Y_{i,2022}(B)$ missing & $Y_{i,2023}(B)$ \textbf{missing} \\
+\hline
+B & $Y_{i,2022}(A)$ missing & $Y_{i,2023}(A)$ missing \\
+  & $Y_{i,2022}(B)$ observed & $Y_{i,2023}(B)$ observed \\
+\hline
+\end{tabular}
+\end{center}
+The key missing counterfactual for identifying ATT is $Y_{i,2023}(B)$ for Region A individuals---what they would have earned without treatment.}
+
+\item Write down the formal expression for the selection bias that would arise from a simple comparison of post-treatment outcomes: $E[Y_{i,t=2023}|G_i = A] - E[Y_{i,t=2023}|G_i = B]$. Explain why this does not generally equal the ATT.
+\ans{
+\begin{align*}
+E[Y_{i,2023}|G_i = A]-E[Y_{i,2023}|G_i = B] =~& \underbrace{E[Y_{i,2023}(A)|G_i = A] - E[Y_{i,2023}(B)|G_i = A]}_{\text{ATT}}\\
++~& \underbrace{E[Y_{i,2023}(B)|G_i = A] - E[Y_{i,2023}(B)|G_i = B]}_{\text{Selection Bias}}.
+\end{align*}
+This does not equal ATT because the simple comparison confounds the treatment effect with pre-existing differences in untreated potential outcomes between regions (selection bias).}
+
+\item Using the Parallel Trends Assumption, show algebraically how the unobserved counterfactual $E[Y_{i,t=2023}(\infty)|G_i = A]$ can be imputed from observed data.
+\ans{Parallel Trends states:
+\begin{equation*}
+E[Y_{i,2023}(B)|G_i = A] - E[Y_{i,2022}(A)|G_i = A] = E[Y_{i,2023}(B)|G_i = B] - E[Y_{i,2022}(B)|G_i = B].
+\end{equation*}
+Rearranging:
+\begin{equation*}
+E[Y_{i,2023}(B)|G_i = A] = E[Y_{i,2022}(A)|G_i = A] + \big[E[Y_{i,2023}(B)|G_i = B] - E[Y_{i,2022}(B)|G_i = B]\big].
+\end{equation*}
+All terms on the right are observed, imputing the counterfactual as Region A's baseline plus Region B's observed change.}
+\end{enumerate}
+
+\item \textbf{Regression Specification and Interpretation}\\
+Suppose you estimate the following two-way fixed effects (TWFE) regression:
+\begin{equation*}
+Y_{i,t} = \alpha_{0}+\gamma_{0}\mathbf{1}\{G_i = A\}+\lambda_{0}\mathbf{1}\{T_i = 2023\}+\beta_{0}^{TWFE}\big(\mathbf{1}\{G_i = A\}\cdot\mathbf{1}\{T_i = 2023\}\big)+\varepsilon_{i,t}
+\end{equation*}
+\begin{enumerate}[(a)]
+\item Interpret each parameter ($\alpha_{0}$, $\gamma_{0}$, $\lambda_{0}$, $\beta_{0}^{TWFE}$) in terms of conditional expectations of observed outcomes.
+\ans{$\alpha_{0} = E[Y_{i,2022}|G_i = B]$ (baseline outcome for control group in 2022); $\gamma_{0} = E[Y_{i,2022}|G_i = A] - E[Y_{i,2022}|G_i = B]$ (pre-treatment difference between regions); $\lambda_{0} = E[Y_{i,2023}|G_i = B] - E[Y_{i,2022}|G_i = B]$ (time trend for control group); $\beta_{0}^{TWFE} = [E[Y_{i,2023}|G_i = A] - E[Y_{i,2022}|G_i = A]] - [E[Y_{i,2023}|G_i = B] - E[Y_{i,2022}|G_i = B]]$ (differential change for treated group, the DiD estimator).}
+
+\item Show that under SUTVA, No-Anticipation, and Parallel Trends, $\beta_{0}^{TWFE}$ equals the ATT.
+\ans{Under SUTVA and No-Anticipation, $\beta_{0}^{TWFE} = [E[Y_{i,2023}(A)|G_i = A] - E[Y_{i,2022}(A)|G_i = A]] - [E[Y_{i,2023}(B)|G_i = B] - E[Y_{i,2022}(B)|G_i = B]]$. Under Parallel Trends, the control group's change identifies the counterfactual change for the treated: $E[Y_{i,2023}(B)|G_i = B]-E[Y_{i,2022}(B)|G_i = B] = E[Y_{i,2023}(B)|G_i = A] - E[Y_{i,2022}(A)|G_i = A]$. Substituting and rearranging: $\beta_{0}^{TWFE} = E[Y_{i,2023}(A)|G_i = A] - E[Y_{i,2023}(B)|G_i = A] = ATT$.}
+
+\item Explain why $\beta_{0}^{TWFE}$ equals the ``DiD by hand'' estimator you calculated in question 1(a).
+\ans{From part (a), $\beta_{0}^{TWFE}$ mechanically equals the difference-in-differences of sample means: $(24.2 - 18.5) - (22.8 - 20.1) = 3.0$. The TWFE regression specification with group and time fixed effects plus an interaction term algebraically produces the same estimator as manually calculating the DiD. Both methods compute the treated group's change minus the control group's change.}
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
