@@ -1,0 +1,95 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage[dvips]{graphicx,epsfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[british]{babel}
+\usepackage[mmddyyyy]{datetime}
+\renewcommand{\baselinestretch}{1.2}
+
+\marginparwidth=0in \marginparsep=0in \oddsidemargin=0in \evensidemargin=0in \headheight=0in \headsep=0in \topmargin=0.5in \textheight=9in
+\textwidth=6in
+\setlength{\parindent}{0pt}
+
+% Command for answers, rendered in italics to match the PDF style
+\newcommand{\ans}[1]{\begin{itemize}\item[$\bullet$] \textit{ANS: #1}\end{itemize}}
+
+\begin{document}
+\begin{tabular}{l r}
+University of Essex  \hspace{35ex}& Session 2025-2026 \\
+Department of Economics \hspace{35ex} & Autumn Term\\
+Dr. Ben Etheridge \hspace{35ex} &
+\end{tabular}
+\\
+\begin{center}
+\large{\textbf{EC466-966: Estimation and Inference in Econometrics }\\
+Exercise \# 5: Differences-in-Differences}
+\end{center}
+\vspace*{0.5cm}
+
+\textbf{Background:} Consider a policy intervention that was implemented in a treatment region in 2020, while a control region did not receive the intervention. You have panel data on unemployment rates for both regions from 2018 to 2022.\\
+
+Let $Y_{ct}$ denote the unemployment rate in city $c$ at time $t$, where $c \in \{\text{Treatment}, \text{Control}\}$ and $t \in \{2018, 2019, 2020, 2021, 2022\}$. The observed unemployment rates (in percentages) are:
+
+\vspace{1em}
+\begin{center}
+\begin{tabular}{lccccc}
+\hline
+City & 2018 & 2019 & 2020 & 2021 & 2022 \\
+\hline
+Treatment & 6.2 & 6.5 & 5.8 & 5.4 & 5.1 \\
+Control & 5.8 & 6.0 & 6.3 & 6.5 & 6.7 \\
+\hline
+\end{tabular}
+\end{center}
+\vspace{1em}
+
+\begin{enumerate}
+\item Calculate the simple difference-in-differences (DiD) estimate of the treatment effect using only the pre-treatment year (2019) and the first post-treatment year (2020). Interpret your result.
+\ans{The change in unemployment for Treatment is $5.8-6.5=-0.7$, and for Control is $6.3-6.0=0.3$. The DiD estimate is $(-0.7)-(0.3)=-1.0$ percentage points. This suggests the policy intervention reduced unemployment by 1.0 percentage point in the treatment region relative to the counterfactual without intervention.}
+
+\item Suppose we model the unemployment rate as:
+\begin{equation}
+\label{eq:did}
+Y_{ct}=\beta_{t}+\gamma_{c}+\delta D_{ct}+u_{ct}
+\end{equation}
+where $D_{ct}=1$ if city $c$ is the treatment city and $t \geq 2020$, and $D_{ct}=0$ otherwise.
+\begin{enumerate}[(a)]
+\item Explain the meaning of each parameter ($\beta_{t}$, $\gamma_{c}$, $\delta$) in the context of this application.
+\ans{$\beta_{t}$ represents time fixed effects (common time trends affecting both cities equally), $\gamma_{c}$ represents city fixed effects (time-invariant differences between cities), and $\delta$ represents the causal effect of the policy intervention on unemployment.}
+
+\item What key assumption about the conditional mean function $E(Y_{0ct}|c,t)$ does this specification impose?
+\ans{The specification imposes the parallel trends assumption: in the absence of treatment, the difference in unemployment between treatment and control cities would remain constant over time. Formally, $E(Y_{0ct}|c,t)=\beta_{t}+\gamma_{c}$, which is additively separable in time and city effects.}
+
+\item Show algebraically that the DiD estimator identifies $\delta$ under this specification.
+\ans{Under the model, for Treatment pre-treatment (2019): $E[Y_{T,2019}]=\beta_{2019}+\gamma_{T}$; post-treatment (2020): $E[Y_{T,2020}]=\beta_{2020}+\gamma_{T}+\delta$. For Control in both periods: $E[Y_{C,2019}]=\beta_{2019}+\gamma_{C}$ and $E[Y_{C,2020}]=\beta_{2020}+\gamma_{C}$. The DiD estimator is:
+\begin{align*}
+\text{DiD} &= \big[E[Y_{T,2020}]-E[Y_{T,2019}]\big]-\big[E[Y_{C,2020}]-E[Y_{C,2019}]\big]\\
+&= \big[(\beta_{2020}+\gamma_{T}+\delta)-(\beta_{2019}+\gamma_{T})\big]-\big[(\beta_{2020}+\gamma_{C})-(\beta_{2019}+\gamma_{C})\big]\\
+&= \big[\beta_{2020}-\beta_{2019}+\delta\big]-\big[\beta_{2020}-\beta_{2019}\big]=\delta
+\end{align*}
+Thus, the DiD estimator identifies the treatment effect $\delta$.}
+\end{enumerate}
+
+\item Using potential outcomes notation, let $Y_{ct}(1)$ denote the unemployment rate that would be observed in city $c$ at time $t$ if the treatment were implemented, and $Y_{ct}(0)$ the unemployment rate if the treatment were not implemented.
+\begin{enumerate}[(a)]
+\item Write down the expression for the Average Treatment Effect on the Treated (ATT) at time $t=2020$.
+\ans{The ATT at $t=2020$ is $\text{ATT}_{2020}=E[Y_{1,T,2020}-Y_{0,T,2020}|\text{Treatment}]$, where $Y_{1,T,2020}$ is the potential outcome with treatment and $Y_{0,T,2020}$ is the potential outcome without treatment for the treatment city.}
+
+\item Explain why we cannot directly compute the ATT from observed data alone.
+\ans{We cannot directly compute the ATT because we observe only $Y_{1,T,2020}$ (the actual treated outcome) but not $Y_{0,T,2020}$ (the counterfactual outcome without treatment). The fundamental problem of causal inference is that we cannot observe both potential outcomes for the same unit at the same time.}
+
+\item State the parallel trends assumption formally using potential outcomes notation.
+\ans{The parallel trends assumption states that $E[Y_{0,T,t}-Y_{0,T,t'}]=E[Y_{0,C,t}-Y_{0,C,t'}]$ for all $t,t'$. In other words, in the absence of treatment, the average change in outcomes over time would have been the same for both treatment and control groups.}
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
