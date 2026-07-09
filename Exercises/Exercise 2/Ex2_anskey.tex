@@ -1,0 +1,99 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage[dvips]{graphicx,epsfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{srcltx}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[british]{babel}
+\usepackage[mmddyyyy]{datetime}
+\usepackage{hyperref}
+\renewcommand{\baselinestretch}{1.2}
+
+\marginparwidth=0in \marginparsep=0in \oddsidemargin=0in \evensidemargin=0in \headheight=0in \headsep=0in \topmargin=0.5in \textheight=9in
+\textwidth=6in 
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{tabular}{l r}
+University of Essex  \hspace{35ex}& Session 2024-2025 \\
+Department of Economics \hspace{35ex} & Autumn Term\\
+Dr. Neslihan Sakarya \hspace{35ex} &
+\end{tabular}
+\\
+\begin{center}
+\large{\textbf{EC466/966: Estimation and Inference in Econometrics}\\
+Answer key-Exercise \# 2}
+\end{center}
+
+\begin{enumerate}
+\item{Please check EC$966\_$466hw2sol.m or EC$466\_$966hw2sol.mlx for the answer.}
+\item{Suppose that you have the following regression model}
+\begin{align*}
+{\bf y}={\bf X}\beta +\epsilon,
+\end{align*}
+where ${\bf y}$ is the $n \times 1$ vector of the dependent variable, ${\bf X}$ is the $n \times K$ vector of regressors, $\beta$ is the $K \times 1$ vector of the model parameters, and $\epsilon$ is the $n \times 1$ vector of the error term. Assume that Classical Linear Regression Model assumptions hold. We estimate the model by the OLS estimator, and obtain ${\bf b}$ that is the estimate for $\beta$.
+\begin{enumerate}
+\item{Show that ${\bf \hat{y}}={\bf P y}$ where ${\bf P=X(X'X)^{-1}X'}$.}\\
+
+We use the definitions of $\hat{{\bf y}}={\bf Xb}$ and ${\bf b=(X'X)^{-1}X'y}$; therefore we write that
+\begin{align*}
+\hat{{\bf y}}={\bf Xb}={\bf X(X'X)^{-1}X'y=Py}.
+\end{align*}
+\item{Show that ${\bf e=My=M\epsilon}$ where ${\bf M=I_{n}-P}$ and ${\bf e=y-\hat{y}}$.}\\
+
+First, we write that 
+\begin{align*}
+{\bf e}={\bf y}-{\bf \hat{y}}={\bf y}-{\bf Py}=({\bf I_{n}}-{\bf P}){\bf y}={\bf My}.
+\end{align*}
+Next, we use the identity for ${\bf y=X\beta}+\epsilon$ and write that
+\begin{align*}
+{\bf e}={\bf My}={\bf M}({\bf X\beta}+\epsilon)={\bf MX}\beta+{\bf M}\epsilon.
+\end{align*}
+Note that ${\bf MX}={\bf (I_{n}-P)X}={\bf X-PX}={\bf X-X(X'X)^{-1}X'X}={\bf 0}$. So, we conclude that
+\begin{align*}
+{\bf e}={\bf MX}\beta+{\bf M\epsilon}={\bf M}\epsilon.
+\end{align*}
+\item{Show that SSR$({\bf b})=\epsilon'{\bf M}\epsilon$.}\\
+
+We know that SSR$({\bf b})={\bf e'e}$. By using the identity in the above Question 2(b) such that ${\bf e}={\bf M\epsilon}$.
+\begin{align*}
+SSR({\bf b})=({\bf M\epsilon})'{\bf M\epsilon}=\epsilon'{\bf M'M\epsilon}.
+\end{align*}
+Note that ${\bf M}$ is a symmetric matrix, since ${\bf M'}=({\bf I_{n}-P})'={\bf I_{n}'}-{\bf P'}={\bf I_{n}'}-({\bf X(X'X)^{-1}X'})'={\bf I_{n}}-{\bf X(X'X)^{-1}X'}={\bf M}$. Also, ${\bf M}$ is an idempotent matrix since
+\begin{align*}
+{\bf M M}&=({\bf I_{n}-P})({\bf I_{n}-P})={\bf I_{n}}-2{\bf P}+{\bf P P}
+&={\bf I_{n}}-2{\bf P}+{\bf P}={\bf I_{n}}-{\bf P},
+\end{align*}
+where ${\bf P P}={\bf X(X'X)^{-1}X'X(X'X)^{-1}X'}={\bf X(X'X)^{-1}X'}={\bf P}$.
+By using ${\bf M}$ being a symmetric and idempotent matrix, we can write that
+\begin{align*}
+SSR({\bf b})=\epsilon'{\bf M'M\epsilon}=\epsilon'{\bf M M\epsilon}=\epsilon'{\bf M\epsilon}.
+\end{align*}
+\item{Show that $s^{2}={\bf e'e}/(n-K)$ is an unbiased estimator for $\sigma^{2}=E(\epsilon_{i}^{2}|{\bf X})$.}\\
+
+To show that $s^{2}$ is an unbiased estimator for $\sigma^{2}$, we need to prove that $E(s^{2}|{\bf X})=\sigma^{2}$.
+\begin{align*}
+E(s^{2}|{\bf X})&=(n-K)^{-1} E({\bf e'e|X})=(n-K)^{-1} E({\bf \epsilon' M \epsilon|X})\\
+&=(n-K)^{-1} E(tr({\bf \epsilon' M \epsilon)|X})=(n-K)^{-1} E(tr({\bf  M \epsilon\epsilon')|X})\\
+&=(n-K)^{-1} tr(E({\bf  M \epsilon\epsilon'|X}))=(n-K)^{-1} tr({\bf M}E({\bf   \epsilon\epsilon'|X}))\\
+&=(n-K)^{-1}tr({\bf M}\sigma^{2}{\bf I_{n}})=\sigma^{2}(n-K)^{-1}tr({\bf M})\\
+&=\sigma^{2}(n-K)^{-1}tr({\bf I_{n}-P})=\sigma^{2}(n-K)^{-1}(n-tr({\bf P}))\\
+&=\sigma^{2}(n-K)^{-1}(n-tr({\bf X(X'X)^{-1}X' }))\\
+&=\sigma^{2}(n-K)^{-1}(n-tr({\bf (X'X)^{-1}X'X }))\\
+&=\sigma^{2}(n-K)^{-1}(n-tr({\bf I_{K} }))\\
+&=\sigma^{2}.
+\end{align*}
+\end{enumerate}
+\vspace*{0.5cm}
+\end{enumerate}
+
+
+\end{document}

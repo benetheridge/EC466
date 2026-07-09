@@ -1,0 +1,102 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage[dvips]{graphicx,epsfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{srcltx}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[british]{babel}
+\usepackage[mmddyyyy]{datetime}
+\usepackage{hyperref}
+\renewcommand{\baselinestretch}{1.2}
+\newtheorem{ans}{Answer}
+\marginparwidth=0in \marginparsep=0in \oddsidemargin=0in \evensidemargin=0in \headheight=0in \headsep=0in \topmargin=0.5in \textheight=9in
+\textwidth=6in 
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{tabular}{l r}
+University of Essex  \hspace{35ex}& Session 2024-2025 \\
+Department of Economics \hspace{35ex} & Autumn Term\\
+Dr. Neslihan Sakarya \hspace{35ex} &
+\end{tabular}
+\\
+\begin{center}
+\large{\textbf{EC466/966: Estimation and Inference in Econometrics}\\
+Exercise \# 3- Answer Key}
+\end{center}
+
+\begin{enumerate}
+\item{Please check EC$966\_466$hw$3\_$sol.m {\bf OR} EC$466\_966$hw$3\_$sol.mlx for the answers.}
+\item{Suppose that you have the following regression model}
+\begin{align*}
+{\bf y}={\bf X}\beta +\epsilon,
+\end{align*}
+where ${\bf y}$ is the $n \times 1$ vector of the dependent variable, ${\bf X}$ is the $n \times K$ vector of regressors, $\beta$ is the $K \times 1$ vector of the model parameters, and $\epsilon$ is the $n \times 1$ vector of the error term. Assume that Classical Linear Regression Model assumptions hold except the homoskedasticity assumption, i.e., $E(\epsilon \epsilon'|{\bf X})=\sigma^{2}{\bf V}$ where ${\bf V}$ is a symmetric and positive definite matrix, and is a function of ${\bf X}$. 
+\begin{enumerate}
+\item{Derive the Generalized Least Squares (GLS) estimator.}
+\setcounter{ans}{1}
+\begin{ans}[a]
+The GLS estimator is obtained by the below minimization problem
+\begin{align*}
+\min_{\tilde{\beta}}({\bf y}-{\bf X}\tilde{\beta})'(\sigma^{2}{\bf V})^{-1}({\bf y}-{\bf X}\tilde{\beta})=\min_{\tilde{\beta}}WSSR(\tilde{\beta}).
+\end{align*}
+The first order condition is
+\begin{align*}
+\frac{\partial WSSR(\tilde{\beta})}{\tilde{\beta}}=-2{\bf X}'{\bf V}^{-1}({\bf y}-{\bf X}\widehat{\beta}_{GLS})=\bf{0}.
+\end{align*}
+Then 
+\begin{align*}
+{\bf X}'{\bf V}^{-1}{\bf X}\widehat{\beta}_{GLS}={\bf X}'{\bf V}^{-1}{\bf y}.
+\end{align*}
+${\bf X}$ is a full column rank matrix and ${\bf V}^{-1}$ is a positive definite matrix; therefore, ${\bf X}'{\bf V}^{-1}{\bf X}$ is a positive definite matrix and invertible. Thus, we have
+\begin{align*}
+\widehat{\beta}_{GLS}=\left({\bf X}'{\bf V}^{-1}{\bf X} \right)^{-1}{\bf X}'{\bf V}^{-1}{\bf y}.
+\end{align*}
+\end{ans}
+\item{Show that the GLS is an (conditionally) unbiased estimator.}
+\setcounter{ans}{1}
+\begin{ans}[b]
+Note that ${\bf V}$ is function of ${\bf X}$. Therefore,
+\begin{align*}
+E(\widehat{\beta}_{GLS}|{\bf X})&=E(\left({\bf X}'{\bf V}^{-1}{\bf X} \right)^{-1}{\bf X}'{\bf V}^{-1}{\bf y}|{\bf X})\\
+&=\left({\bf X}'{\bf V}^{-1}{\bf X} \right)^{-1}{\bf X}'{\bf V}^{-1}E({\bf y}|{\bf X})\\
+&=\left({\bf X}'{\bf V}^{-1}{\bf X} \right)^{-1}{\bf X}'{\bf V}^{-1}{\bf X}\beta\\
+&=\beta.
+\end{align*}
+\end{ans}
+
+\item{Derive the variance-covariance matrix for the GLS estimator.}
+\setcounter{ans}{1}
+\begin{ans}[c]
+The variance-covariance matrix for the GLS estimator is
+\begin{align*}
+&Var(\widehat{\beta}_{GLS}|{\bf X})=Var(\left({\bf X}'{\bf V}^{-1}{\bf X} \right)^{-1}{\bf X}'{\bf V}^{-1}{\bf y}|{\bf X})\\
+=&\left({\bf X}'{\bf V}^{-1}{\bf X} \right)^{-1}{\bf X}'{\bf V}^{-1}Var({\bf y}|{\bf X}){\bf V}^{-1}{\bf X} \left({\bf X}'{\bf V}^{-1}{\bf X} \right)^{-1}\\
+=&\left({\bf X}'{\bf V}^{-1}{\bf X} \right)^{-1}{\bf X}'{\bf V}^{-1}{\bf V}{\bf V}^{-1}{\bf X} \left({\bf X}'{\bf V}^{-1}{\bf X} \right)^{-1}\\
+=&\left({\bf X}'{\bf V}^{-1}{\bf X} \right)^{-1}.
+\end{align*}
+\end{ans}
+\item{Is the OLS estimator unbiased in the presence of heteroskedasticity?}
+\setcounter{ans}{1}
+\begin{ans}[d]
+The OLS estimator is still unbiased, because
+\begin{align*}
+E(\widehat{\beta}_{OLS}|{\bf X})&=E(\left({\bf X}'{\bf X} \right)^{-1}{\bf X}'{\bf y}|{\bf X})\\
+&=\left({\bf X}'{\bf X} \right)^{-1}{\bf X}'E({\bf y}|{\bf X})\\
+&=\left({\bf X}'{\bf X} \right)^{-1}{\bf X}'{\bf X}\beta\\
+&=\beta.
+\end{align*}
+\end{ans}
+\end{enumerate}
+\vspace*{0.5cm}
+\end{enumerate}
+
+\end{document}

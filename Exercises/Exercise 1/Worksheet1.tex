@@ -1,0 +1,61 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage[dvips]{graphicx,epsfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{srcltx}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[british]{babel}
+\usepackage[mmddyyyy]{datetime}
+\usepackage{hyperref}
+\renewcommand{\baselinestretch}{1.2}
+\newcommand{\by}{\bf{y}}
+\newcommand{\bX}{\bf{X}}
+\newcommand{\bx}{\bf{x}}
+\newcommand{\beps}{\bf{\varepsilon}}
+\newcommand{\bbeta}{\bf{\beta}}
+
+\marginparwidth=0in \marginparsep=0in \oddsidemargin=0in \evensidemargin=0in \headheight=0in \headsep=0in \topmargin=0.5in \textheight=9in
+\textwidth=6in 
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{tabular}{l r}
+University of Essex  \hspace{35ex}& Session 2024-2025 \\
+Department of Economics \hspace{35ex} & Autumn Term\\
+Dr. Neslihan Sakarya \hspace{35ex} &
+\end{tabular}
+\\
+\begin{center}
+\large{\textbf{EC466: Estimation and Inference in Econometrics}\\
+Worksheet \# 1}
+\end{center}
+\vspace*{0.5cm}
+Let $\by$ be an $n \times 1$ vector, $\bX$ be an $n \times K$ matrix, $\bbeta$ is a $K \times 1$ vector of parameters, and $\beps$ is $n \times 1$ vector of errors.  We write a regression equation in the vector form as follows
+\begin{align*}
+\by=\bX\beta+\beps.
+\end{align*}
+\begin{enumerate}
+\item{Write down the linear regression equation for $\by'$. }
+\item{What are the numbers of rows and columns of $\bX'\by$?}
+\item{Let $\bX=[\bx_{1}, \bx_{2}, \dots, \bx_{n}]'$ where $\bx_{i}$ is a $K \times 1$ vector and the $i^{th}$ row of $\bX$. Write down $\bX'y$ in terms of $\bx_{i}$ and $y_{i}$ where $y_{i}$ is the $i^{th}$ element of $\by$.}
+\item{Is $\bX'\by$ invertible?}
+\item{What are the numbers of rows and columns of $\bX'\bX$?}
+\item{What are the numbers of rows and columns of $\bX\bX'$?}
+\item{Suppose that $\bX$ is full column rank.}
+\begin{enumerate}
+\item{What is the rank of $\bX'\bX$?}
+\item{What is the rank of $\bX\bX'$?}
+\item{Is $\bX'\bX$ invertible?}
+\item{Is $\bX\bX'$ invertible?}
+\end{enumerate}
+\end{enumerate}
+
+\end{document}

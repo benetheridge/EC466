@@ -1,0 +1,24 @@
+BEAUTY.DES
+ 
+wage      lwage     belavg    abvavg    exper     looks     union     goodhlth      female    married   south     bigcity   smllcity  service   expersq  
+educ      
+
+
+  Obs:  1260                          
+ 
+ 
+  1. lwage                   log(wage)
+  2. belavg                  =1 if looks <= 2 (below average look)
+  3. abvavg                  =1 if looks >=4 (above average look)
+  4. exper                   years of workforce experience
+  5. looks                   from 1 to 5
+  6. union                   =1 if union member
+  7. goodhlth                =1 if good health
+ 8. female                  =1 if female
+ 9. married                 =1 if married
+ 10. south                   =1 if live in south
+ 11. bigcity                 =1 if live in big city
+ 12. smllcity                =1 if live in small city
+ 13. service                 =1 if service industry
+ 14. expersq                 exper^2
+ 15. educ                    years of schooling

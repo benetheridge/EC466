@@ -1,0 +1,75 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage[dvips]{graphicx,epsfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{srcltx}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[british]{babel}
+\usepackage[mmddyyyy]{datetime}
+\usepackage{hyperref}
+\renewcommand{\baselinestretch}{1.2}
+
+\marginparwidth=0in \marginparsep=0in \oddsidemargin=0in \evensidemargin=0in \headheight=0in \headsep=0in \topmargin=0.5in \textheight=9in
+\textwidth=6in 
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{tabular}{l r}
+University of Essex  \hspace{35ex}& Session 2024-2025 \\
+Department of Economics \hspace{35ex} & Autumn Term\\
+Dr. Neslihan Sakarya \hspace{35ex} &
+\end{tabular}
+\\
+\begin{center}
+\large{\textbf{EC466-966: Estimation and Inference in Econometrics}\\
+Exercise \# 1- Answer Key}
+\end{center}
+
+\begin{enumerate}
+\item{Please see EC466hw1sol.pdf.}
+\item{Show that ${\bf X'X}$ is a symmetric positive definite matrix.\\}
+We first show that ${\bf X'X}$ is a symmetric matrix. Let ${\bf A=X'X}$, then
+\begin{align*}
+{\bf A'=(X'X)'=X'X=A},
+\end{align*}
+therefore ${\bf X'X}$ is a symmetric matrix.\\
+To show that ${\bf X'X}$ is a positive definite matrix, first note that
+\begin{align*}
+{\bf X}=[{\bf x_{1}}, {\bf x_{2}}, \dots, {\bf x_{n}}]'.
+\end{align*}
+By the definition of a positive definite matrix, then we take a $K \times 1$ non-zero vector ${\bf z}$ and calculate ${\bf z'X'Xz}$. 
+\begin{align*}
+{\bf z'X'Xz}=\sum_{i=1}^{n} {\bf z'x_{i}x_{i}'z}=\sum_{i=1}^{n} \left({\bf z'x_{i}}\right)^{2}>0,
+\end{align*}
+since ${\bf z'x_{i}}$ is a scalar, i.e., ${\bf z'x_{i}}={\bf x_{i}'z}$.
+\item{Show that $({\bf X'X})^{-1}$ is a symmetric positive definite matrix.\\}
+
+To show that $({\bf X'X})^{-1}$ is a symmetric positive definite matrix, we use the eigendecomposition of a symmetrix matrix. Since we have shown that ${\bf X'X}$ is a symmetric positive definite matrix, we can write that
+\begin{align*}
+{\bf X'X}={\bf \Gamma \Lambda \Gamma'},
+\end{align*}
+where ${\bf \Gamma}$ is an orthogonal matrix (i.e., ${\bf \Gamma \Gamma'}={\bf I_{K}}$) whose columns are the eigenvectors of ${\bf X'X}$, and ${\bf \Lambda}$ is a diagonal matrix whose entries are the eigenvalues of ${\bf X'X}$. Then,
+\begin{align*}
+\left({\bf X'X}\right)^{-1}=\left({\bf \Gamma \Lambda \Gamma'}\right)^{-1}={\bf (\Gamma')^{-1}\Lambda^{-1}\Gamma^{-1}}={\bf \Gamma \Lambda^{-1} \Gamma'},
+\end{align*}
+since ${\bf \Gamma'=\Gamma^{-1}}$. Note that all eigenvalues of a positive definite matrix is positive, i.e., $\lambda_{i}>0$ for all $i=1,2,\dots,k$ where $\lambda_{i}$ is the eigenvalues of ${\bf X'X}$. ${\bf \Lambda}=$diag$(\lambda_{1},\lambda_{2},\dots,\lambda_{K})$. Then ${\bf \Lambda}^{-1}=$diag$(1/\lambda_{1}, 1/\lambda_{2},\dots,1/\lambda_{K})$. Therefore, the eigenvalues of $({\bf X'X})^{-1}$ is also positive. This implies that $({\bf X'X})^{-1}$ is a positive definite matrix.\\
+Now, we need to show that $({\bf X'X})^{-1}$ is a symmetric matrix. N
+\begin{align*}
+\left(({\bf X'X})^{-1}\right)'=\left({\bf \Gamma \Lambda^{-1} \Gamma'} \right)'={\bf (\Gamma')' (\Lambda^{-1})' \Gamma'}={\bf \Gamma \Lambda^{-1} \Gamma'}=({\bf X'X})^{-1},
+\end{align*}
+since ${\bf \Gamma'=\Gamma^{-1}}$ and ${\bf \Lambda^{-1}}$ is a diagonal matrix.
+
+
+
+\end{enumerate}
+
+
+\end{document}

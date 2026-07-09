@@ -1,0 +1,56 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage[dvips]{graphicx,epsfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{srcltx}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[british]{babel}
+\usepackage[mmddyyyy]{datetime}
+\usepackage{hyperref}
+\renewcommand{\baselinestretch}{1.2}
+\newcommand{\by}{\bf{y}}
+\newcommand{\bX}{\bf{X}}
+\newcommand{\bx}{\bf{x}}
+\newcommand{\be}{\bf{e}}
+\newcommand{\beps}{\bf{\varepsilon}}
+\newcommand{\bbeta}{\bf{\beta}}
+
+\marginparwidth=0in \marginparsep=0in \oddsidemargin=0in \evensidemargin=0in \headheight=0in \headsep=0in \topmargin=0.5in \textheight=9in
+\textwidth=6in 
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{tabular}{l r}
+University of Essex  \hspace{35ex}& Session 2024-2025 \\
+Department of Economics \hspace{35ex} & Autumn Term\\
+Dr. Neslihan Sakarya \hspace{35ex} &
+\end{tabular}
+\\
+\begin{center}
+\large{\textbf{EC466: Estimation and Inference in Econometrics}\\
+Worksheet \# 2}
+\end{center}
+\vspace*{0.5cm}
+Let $\by$ be an $n \times 1$ vector, $\bX=\mathtt{1}_{n}$ be an $n \times 1$ vector of ones, $\bbeta$ is a scalar, and $\beps$ is $n \times 1$ vector of errors.  We write a regression equation in the vector form as follows
+\begin{align*}
+\by=\bX\beta+\beps.
+\end{align*}
+\begin{enumerate}
+\item{Write down $\bX'\bX$? What are the numbers of rows and columns?}
+\item{Is $\bX'\bX$ invertible?}
+\item{Write down $\bX'\by$.What are the numbers of rows and columns?}
+\item{What are the numbers of rows and columns of $\bX'\by$?}
+\item{Suppose that the above variables and equation satisfy the Gauss-Markov conditions. And we estimate the above equation by the OLS estimator. Write down $b$ as a function of $y_{i}$'s. }
+\item{Write down residuals by using $\be=\by-\bX b$ formula.}
+\item{Calculate the average of the residuals. Explain why your answer makes sense or why it does not make sense.}
+\end{enumerate}
+
+\end{document}

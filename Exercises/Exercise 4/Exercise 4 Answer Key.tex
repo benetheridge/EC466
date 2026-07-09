@@ -1,0 +1,166 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage[dvips]{graphicx,epsfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{srcltx}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[british]{babel}
+\usepackage[mmddyyyy]{datetime}
+\usepackage{hyperref}
+\renewcommand{\baselinestretch}{1.2}
+
+\marginparwidth=0in \marginparsep=0in \oddsidemargin=0in \evensidemargin=0in \headheight=0in \headsep=0in \topmargin=0.5in \textheight=9in
+\textwidth=6in 
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\begin{tabular}{l r}
+University of Essex  \hspace{35ex}& Session 2024-2025 \\
+Department of Economics \hspace{35ex} & Autumn Term\\
+Dr. Neslihan Sakarya \hspace{35ex} &
+\end{tabular}
+\\
+\begin{center}
+\large{\textbf{EC466: Estimation and Inference in Econometrics }\\
+Exercise \# 4- Answer Key}
+\end{center}
+\vspace*{0.5cm}
+
+
+The following equation describes the median housing price in a community in terms of \emph{lotsize} (the size of lot in square feet), \emph{sqrft} (size of house in square feet), and \emph{bdrms} (the number of bedrooms):
+\begin{align}
+\label{eq:nonlog}
+price_{i}=&\beta_{0}+\beta_{1}lotsize_{i}+\beta_{2}sqrft_{i}+\beta_{3}bdrms_{i}+\beta_{4}lotsize^{2}+\beta_{5}sqrft^{2}_{i}\\
+&+\beta_{6}bdrms^{2}_{i}+\beta_{7}lotsize_{i}*sqrft_{i}+\beta_{8}lotsize_{i}*bdrms_{i} \nonumber\\
+&+\beta_{9}sqrft_{i}*bdrms_{i}+u_{i}\nonumber
+\end{align}
+where $\beta_{j}$ $j=0,1,2,\dots,9$ are the true parameter values and $u_{i}$ is the error term. We assume that $E(u_{i}|lotsize_{i}, sqrft_{i}, bdrms_{i}, \dots)=0$ and $Var(u_{i}| lotsize_{i}, sqrft_{i}, bdrms_{i}, \dots)=\sigma^{2}$ for all $i=1,2,\dots,n$ where $\sigma^{2}$ is an unknown constant and $n$ is the number of observations. I used Gretl to obtain the regression outputs below. I estimated the standard errors of the coefficients in Model 1 under the assumption of homoskedasticity ($Var(u_{i}| lotsize_{i}, sqrft_{i}, bdrms_{i}, \dots)=\sigma^{2}$ for all $i=1,2,\dots,n$). 
+
+\begin{center}
+
+Model 1: OLS, using observations 1--88\\
+Dependent variable: price\\
+
+\vspace{1em}
+
+\begin{tabular}{lr@{.}lr@{.}lr@{.}lr@{.}l}
+  &
+ \multicolumn{2}{c}{Coefficient} &
+  \multicolumn{2}{c}{Std.\ Error} &
+   \multicolumn{2}{c}{$t$-ratio} &
+    \multicolumn{2}{c}{p-value} \\[1ex]
+const &
+  15626&2 &
+    11369&4 &
+      1&374 &
+        0&1733 \\
+lotsize &
+  $-$1&85951 &
+    0&637097 &
+      $-$2&919 &
+        0&0046 \\
+sqrft &
+  $-$2&67392 &
+    8&66218 &
+      $-$0&3087 &
+        0&7584 \\
+bdrms &
+  $-$1982&84 &
+    5438&48 &
+      $-$0&3646 &
+        0&7164 \\
+sqlotsize &
+  $-$4&97839\textrm{e--007} &
+    4&63115\textrm{e--006} &
+      $-$0&1075 &
+        0&9147 \\
+sqsqrft &
+  0&000352255 &
+    0&00183960 &
+      0&1915 &
+        0&8486 \\
+sqbdrms &
+  289&754 &
+    758&830 &
+      0&3818 &
+        0&7036 \\
+lotsize\_sqrft &
+  0&000456778 &
+    0&000276890 &
+      1&650 &
+        0&1030 \\
+lotsize\_bdrms &
+  0&314647 &
+    0&252094 &
+      1&248 &
+        0&2157 \\
+sqrft\_bdrms &
+  $-$1&02086 &
+    1&66715 &
+      $-$0&6123 &
+        0&5421 \\
+\end{tabular}
+
+\vspace{1ex}
+\begin{tabular}{lrlr}
+Mean dependent var &  3417.316 & S.D. dependent var &  7094.384 \\
+Sum squared resid &  2.70\textrm{e+09} & S.E. of regression &  5883.814 \\
+$R^2$ &  0.383314 & Adjusted $R^2$ &  0.312158 \\
+$F(9, 78)$ &  5.386953 & P-value($F$) &  0.000010 \\
+Log-likelihood & $-$883.3955 & Akaike criterion &  1786.791 \\
+Schwarz criterion &  1811.564 & Hannan--Quinn &  1796.772 \\
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+\item{Report the variables that are significant at $5\%$ level of significance.}\\
+
+{\bf Answer:} lotsize.
+\item{Test the joint significance hypothesis at $1\%$ level of significance.}\\
+
+{\bf Answer:} The joint significance test implies that
+\begin{align*}
+R=\begin{bmatrix}
+0 & 1& 0 & 0 & 0 & 0 & 0 & 0 & 0 &0 \\
+0 & 0& 1 & 0 & 0 & 0 & 0 & 0 & 0 &0 \\
+0 & 0& 0 & 1 & 0 & 0 & 0 & 0 & 0 &0 \\
+0 & 0& 0 & 0 & 1 & 0 & 0 & 0 & 0 &0 \\
+0 & 0& 0 & 0 & 0 & 1 & 0 & 0 & 0 &0 \\
+0 & 0& 0 & 0 & 0 & 0 & 1 & 0 & 0 &0 \\
+0 & 0& 0 & 0 & 0 & 0 & 0 & 1 & 0 &0 \\
+0 & 0& 0 & 0 & 0 & 0 & 0 & 0 & 1 &0 \\
+0 & 0& 0 & 0 & 0 & 0 & 0 & 0 & 0 &1 \
+\end{bmatrix}
+\end{align*}
+and $r=[0,0,0,0,0,0,0,0,0]'$. The F-statistic is 5.38 (printed in the regression output) and the critical value is 2.72. Therefore, we reject the null hypothesis at $1\%$ level of significance.\\
+
+\item{Explain how you would test the following hypothesis}\\
+$H_{0}: \beta_{2}=0$, $\beta_{2}+\beta_{5}=1$ and $\beta_{7}=\beta_{8}=3$.\\
+
+Write down the null and alternative hypothesis in the $R\beta=r$ format where $\beta$ is $10 \times 1$ parameter vector. The F-statistic should be compared with the critical value coming from $F(4,78)$ distribution, which is 3.65 at $1\%$ level of significance. We would reject the null at $1\%$ level of significance if F-statistic is larger that 3.65.
+\end{enumerate}
+
+{\bf Answer:}
+\begin{align*}
+H_{0}:R\beta&=r\\
+H_{1}: R\beta &\neq r
+\end{align*}
+where
+\begin{align*}
+R=
+\begin{bmatrix}
+0 & 0& 1 & 0 & 0 & 0 & 0 & 0 & 0 &0 \\
+0 & 0& 1 & 0 & 0 & 1 & 0 & 0 & 0 &0 \\
+0 & 0& 0 & 1 & 0 & 0 & 0 & 1 & 0 &0 \\
+0 & 0& 0 & 0 & 1 & 0 & 0 & 0 & 1 &0 \\
+\end{bmatrix}
+\end{align*}
+and $r=[0,1 ,3,3]'.$
+\end{document}

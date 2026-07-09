@@ -1,0 +1,53 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage[dvips]{graphicx,epsfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{srcltx}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[british]{babel}
+\usepackage[mmddyyyy]{datetime}
+\usepackage{hyperref}
+\renewcommand{\baselinestretch}{1.2}
+
+\marginparwidth=0in \marginparsep=0in \oddsidemargin=0in \evensidemargin=0in \headheight=0in \headsep=0in \topmargin=0.5in \textheight=9in
+\textwidth=6in 
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{tabular}{l r}
+University of Essex  \hspace{35ex}& Session 2024-2025 \\
+Department of Economics \hspace{35ex} & Autumn Term\\
+Dr. Neslihan Sakarya \hspace{35ex} &
+\end{tabular}
+\\
+\begin{center}
+\large{\textbf{EC466/966: Estimation and Inference in Econometrics}\\
+Exercise \# 2}
+\end{center}
+
+\begin{enumerate}
+\item{Please answer the questions on EC$966\_466$hw2.m {\bf OR} EC$466\_966$hw2.mlx. The first file is a matlab script file, the second one is a matlab live script file. Please copy and paste {\bf beauty.xls} file in the Matlab folder on your computer.}
+\item{Suppose that you have the following regression model}
+\begin{align*}
+{\bf y}={\bf X}\beta +\epsilon,
+\end{align*}
+where ${\bf y}$ is the $n \times 1$ vector of the dependent variable, ${\bf X}$ is the $n \times K$ vector of regressors, $\beta$ is the $K \times 1$ vector of the model parameters, and $\epsilon$ is the $n \times 1$ vector of the error term. Assume that Classical Linear Regression Model assumptions hold. We estimate the model by the OLS estimator, and obtain ${\bf b}$ that is the estimate for $\beta$.
+\begin{enumerate}
+\item{Show that ${\bf \hat{y}}={\bf P y}$ where ${\bf P=X(X'X)^{-1}X'}$.}
+\item{Show that ${\bf e=My=M\epsilon}$ where ${\bf M=I_{n}-P}$ and ${\bf e=y-\hat{y}}$.}
+\item{Show that $SSR({\bf b})=\epsilon'{\bf M}\epsilon$.}
+\item{Show that $s^{2}={\bf e'e}/(n-K)$ is an unbiased estimator for $\sigma^{2}=E(\epsilon_{i}^{2}|{\bf X})$.}
+\end{enumerate}
+\vspace*{0.5cm}
+\end{enumerate}
+\textbf{Please upload your solutions and  Matlab script files on Moodle until November 1, 2023, Wednesday, 23:59.}
+
+\end{document}
